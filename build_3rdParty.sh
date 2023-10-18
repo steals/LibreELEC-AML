@@ -1,12 +1,6 @@
 #!/bin/sh
 # Create image for 3rdParty devices
 
-# Generic S905x devices (gxbb, gxl)
-PROJECT=S905 DEVICE=Generic_S905 ARCH=arm make image -j$(nproc)
-
-# Generic S912 devices (gxm)
-PROJECT=S912 DEVICE=Generic_S912 ARCH=arm make image -j$(nproc)
-
 # Universal build for multiple k200-based S802 TV boxes
 # Specs: Amlogic S802 SoC, 2 GB RAM, 10/100 Mbps LAN, AP6330 or Realtek WiFi
 PROJECT=S8X2 DEVICE=k200-AP6330_2G ARCH=arm make image -j$(nproc)
@@ -34,10 +28,6 @@ PROJECT=Minix-S8X2 DEVICE=X8H-Plus ARCH=arm make image -j$(nproc)
 # Odroid C1/C1+
 # Specs: Amlogic S805 SoC, 1 GB RAM, Gigabit LAN, without WiFi
 PROJECT=Odroid_C1 ARCH=arm make image -j$(nproc)
-
-# MXQ S85
-# Specs: Amlogic S805 SoC, 1 GB RAM, 10/100 LAN, AP6210/AP6212 WiFi
-#PROJECT=S805 DEVICE=MXQ ARCH=arm make image -j$(nproc)
 
 # Remove unnecessary files after the build process
 rm -rf target/*.kernel

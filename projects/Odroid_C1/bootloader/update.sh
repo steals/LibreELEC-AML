@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2017-2022 Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2022-present Gabor Dee (dee.gabor@gmail.com)
 
 [ -z "$SYSTEM_ROOT" ] && SYSTEM_ROOT=""
 [ -z "$BOOT_ROOT" ] && BOOT_ROOT="/flash"
@@ -22,7 +23,7 @@ if [ -z "$BOOT_DISK" ]; then
   esac
 fi
 
-mount -o rw,remount $BOOT_ROOT
+mount -o remount,rw $BOOT_ROOT
 
 echo "Updating initial ramdisk..."
 rm $BOOT_ROOT/INITRD
@@ -123,4 +124,15 @@ if [ -f $SYSTEM_ROOT/usr/share/bootloader/u-boot -a -f $SYSTEM_ROOT/usr/share/bo
   dd if=$SYSTEM_ROOT/usr/share/bootloader/u-boot of=$BOOT_DISK conv=fsync bs=512 seek=64
 fi
 
-mount -o ro,remount $BOOT_ROOT
+sync
+mount -o remount,ro $BOOT_ROOT
+
+if [ -e /storage/.kodi/addons/repository.libreelec.tv ]; then
+  echo "Removing outdated LibreELEC Add-ons update..."
+  rm -rf /storage/.kodi/addons/repository.libreelec.tv
+fi
+
+if [ -e /storage/.kodi/addons/service.libreelec.settings ]; then
+  echo "Removing outdated LibreELEC Configuration update..."
+  rm -rf /storage/.kodi/addons/service.libreelec.settings
+fi
