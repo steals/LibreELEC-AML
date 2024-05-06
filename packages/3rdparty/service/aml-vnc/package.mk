@@ -3,13 +3,13 @@
 # Copyright (C) 2021-present Gabor Dee (dee.gabor@gmail.com)
 
 PKG_NAME="aml-vnc"
-PKG_VERSION="7466579c622dd1666b716ef682323c0c3b3bca62"
-PKG_SHA256="c67a8d7c51f588b5cd903e2ba3a53ca8e5d5642186c00ac8062cb002b946c42d"
-PKG_REV="108"
+PKG_VERSION="1.2.0"
+PKG_SHA256="38009d0ea84868c7e077eb7594f2808bf5acdae3b7e691cb73fb800e9489d064"
+PKG_REV="112"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/kszaq/aml-vnc"
-PKG_URL="https://github.com/kszaq/my-addons/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/dtechsrv/aml-vnc-server"
+PKG_URL="https://github.com/dtechsrv/aml-vnc-server/archive/${PKG_VERSION}.tar.gz"
 PKG_MAINTAINER="dtech(.hu)"
 PKG_DEPENDS_TARGET="toolchain libvncserver"
 PKG_SECTION="service/system"
@@ -19,11 +19,6 @@ PKG_LONGDESC="Amlogic VNC Server is a Virtual Network Computing (VNC) server for
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Amlogic VNC Server"
 PKG_ADDON_TYPE="xbmc.service"
-
-unpack() {
-  mkdir -p ${PKG_BUILD}
-  tar --strip-components=3 -xf ${SOURCES}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}.tar.gz -C ${PKG_BUILD} my-addons-${PKG_VERSION}/${PKG_NAME}/sources
-}
 
 makeinstall_target() {
   :
