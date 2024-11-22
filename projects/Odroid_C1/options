@@ -145,4 +145,4 @@
     ADDON_PATH="$ADDON_VERSION/S805/$TARGET_ARCH"
     ADDON_URL="$ADDON_SERVER_URL/$ADDON_PATH"
 
-    ADDITIONAL_PACKAGES="snapclient tvlink pvr.iptvsimple"
+    ADDITIONAL_PACKAGES="snapclient pvr.iptvsimple"
