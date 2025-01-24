@@ -1,11 +1,11 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2016-2020 Team LibreELEC (https://libreelec.tv)
 # Copyright (C) 2021-present Gabor Dee (dee.gabor@gmail.com)
 
 PKG_NAME="aml-vnc"
 PKG_VERSION="1.2.0"
 PKG_SHA256="38009d0ea84868c7e077eb7594f2808bf5acdae3b7e691cb73fb800e9489d064"
-PKG_REV="112"
+PKG_REV="113"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dtechsrv/aml-vnc-server"

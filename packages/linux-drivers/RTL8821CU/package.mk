@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2023-present Gabor Dee (dee.gabor@gmail.com)
 
 PKG_NAME="RTL8821CU"
 PKG_VERSION="cf1be3f"
@@ -9,6 +9,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/alecava/rtl8821CU"
 PKG_URL="https://github.com/alecava/rtl8821CU/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="rtl8821CU-$PKG_VERSION*"
+
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="$LINUX_DEPENDS"
 PKG_SECTION="driver"

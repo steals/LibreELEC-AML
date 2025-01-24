@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2016-2020 Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2021-present Gabor Dee (dee.gabor@gmail.com)
 
 PKG_NAME="dvb-latest"
 PKG_VERSION="0f25e6fb13b6bc345218800ad9ac863deb2ee9c8"
@@ -8,7 +9,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://git.linuxtv.org/media_build.git"
 PKG_URL="https://git.linuxtv.org/media_build.git/snapshot/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux media_tree"
-PKG_NEED_UNPACK="$LINUX_DEPENDS $(get_pkg_directory media_tree)"
+PKG_NEED_UNPACK="${LINUX_DEPENDS} $(get_pkg_directory media_tree)"
 PKG_SECTION="driver.dvb"
 PKG_LONGDESC="DVB drivers from the latest kernel (media_build)"
 
@@ -21,10 +22,10 @@ PKG_ADDON_VERSION="${ADDON_VERSION}.${PKG_REV}"
 
 case "${LINUX}" in
   amlogic-3.10)
-    PKG_PATCH_DIRS+="amlogic-3.10"
+    PKG_PATCH_DIRS+=" amlogic-3.10"
     ;;
   amlogic-3.14)
-    PKG_PATCH_DIRS+="amlogic-3.14"
+    PKG_PATCH_DIRS+=" amlogic-3.14"
     PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} media_tree_aml"
     PKG_NEED_UNPACK="${PKG_NEED_UNPACK} $(get_pkg_directory media_tree_aml)"
     ;;
@@ -80,11 +81,10 @@ make_target() {
       sed -e 's/CONFIG_V4L_AMLOGIC_VIDEO2=m/# CONFIG_V4L_AMLOGIC_VIDEO2 is not set/g' -i ${PKG_BUILD}/v4l/.config
       sed -e 's/CONFIG_VIDEO_AU0828=m/# CONFIG_VIDEO_AU0828 is not set/g' -i ${PKG_BUILD}/v4l/.config
       sed -e 's/CONFIG_IR_NUVOTON=m/# CONFIG_IR_NUVOTON is not set/g' -i ${PKG_BUILD}/v4l/.config
-      sed -e 's/CONFIG_DVB_USB_TBS5520SE=m/# CONFIG_DVB_USB_TBS5520SE is not set/g' -i ${PKG_BUILD}/v4l/.config
     fi
   fi
 
-  kernel_make VER=$KERNEL_VER SRCDIR=$(kernel_path)
+  kernel_make VER=${KERNEL_VER} SRCDIR=$(kernel_path)
 }
 
 makeinstall_target() {
