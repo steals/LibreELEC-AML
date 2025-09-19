@@ -10,6 +10,7 @@ oe_setup_addon service.makemkv
 MODULE_NAME="sg"
 CONFIG_SYMLINK="${HOME}/.MakeMKV"
 SETTINGS_FILE="${ADDON_HOME}/settings.conf"
+KEY_REGEX="^[A-Za-z0-9@_-]{68}$"
 
 # Try to load SCSI Generic module
 if [ $(cat /proc/modules | grep -c ${MODULE_NAME}) == "0" ]; then
@@ -32,21 +33,26 @@ if [ ${MAKEMKV_KEY_ENABLE} == "true" ]; then
   KEY_STRING=${MAKEMKV_KEY_STRING}
 else
   echo "No static key defined, checking current free beta key..."
-  KEY_STRING=$(wget -qO- "https://forum.makemkv.com/forum/viewtopic.php?f=5&t=1053" -T 10 2> /dev/null | awk 'FNR == 269 {print $13}'| cut -c 23-90)
+  KEY_STRING=$(wget -qO- "https://forum.makemkv.com/forum/viewtopic.php?f=5&t=1053" -T 10 2> /dev/null | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g')
 fi
 
 # Check for key validity and difference
-if [[ "$(echo "${KEY_STRING}" | awk '/^[A-Za-z1-9@-]{68}$/p')" != "${KEY_STRING}" || "${KEY_STRING}" == "" ]]; then
+if [[ "$(echo "${KEY_STRING}" | awk '/'${KEY_REGEX}'/p')" != "${KEY_STRING}" || "${KEY_STRING}" == "" ]]; then
   echo "The received key does not meet the regex criteria, so it will not be written to the settings file."
 else
   if [ ! -f ${SETTINGS_FILE} ]; then
     echo "No settings file found, creating a new one: '${SETTINGS_FILE}'."
-    echo "app_Key=\"${KEY_STRING}\"" > ${SETTINGS_FILE}
+    echo "# This file was created by the makemkv service bootstrap script." > ${SETTINGS_FILE}
+    echo "app_Key = \"${KEY_STRING}\"" >> ${SETTINGS_FILE}
   else
     echo "Checking the stored key in the '${SETTINGS_FILE}' file."
-    if [ ${KEY_STRING} != "$(cat ${SETTINGS_FILE} | grep app_Key="*" | cut -d '"' -f 2)" ]; then
+    KEY_STORED=$(cat ${SETTINGS_FILE} | grep app_Key | cut -d '"' -f 2)
+    if [ "${KEY_STORED}" == "" ]; then
+      echo "The settings file does not contain a key, so the received key will be saved."
+      echo "app_Key = \"${KEY_STRING}\"" >> ${SETTINGS_FILE}
+    elif [ "${KEY_STORED}" != "${KEY_STRING}" ]; then
       echo "The stored key is outdated, replace it with the received key."
-      sed -i 's/^app_Key=.*$/app_Key=\"'${KEY_STRING}'\"/g' ${SETTINGS_FILE}
+      sed -i 's/^app_Key.*$/app_Key = \"'${KEY_STRING}'\"/g' ${SETTINGS_FILE}
     else
       echo "The received and stored keys are identical, no further action is required."
     fi

@@ -1,2 +1,9 @@
+102
+- updated to 1.18.1
+
+101
+- updated to 1.17.9
+- stored key parsing improvements in bootstrap script
+
 100
 - initial version
